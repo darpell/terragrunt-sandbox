@@ -1,5 +1,5 @@
 terraform {
-  source = "/Users/dpelonia/dev/sandbox/tf/tg/modules/create-local-file"
+  source = "../../../modules/create-local-file"
 }
 
 locals {
@@ -7,6 +7,5 @@ locals {
 }
 
 inputs = merge(local.shared_vars.inputs, {
-  # content = "Hello from foo2, Terragrunt!"
   filename = "${get_terragrunt_dir()}/foo.txt"
 })
