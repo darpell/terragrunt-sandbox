@@ -1,0 +1,11 @@
+terraform {
+  source = "../../../modules/create-local-file"
+}
+
+locals {
+  shared_vars = read_terragrunt_config(find_in_parent_folders("/shared.hcl"))  
+}
+
+inputs = merge(local.shared_vars.inputs, {
+  filename = "${get_terragrunt_dir()}/zip.txt"
+})
