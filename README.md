@@ -19,5 +19,5 @@ These text files should contain the value of __content__ set in _infra/local_fil
 terragrunt run-all destroy --terragrunt-non-interactive
 ```
 
-
+## Watch the demo
 [![Watch the demo](./demo.mov)](./demo.mov)
