@@ -7,5 +7,5 @@ locals {
 }
 
 inputs = merge(local.shared_vars.inputs, {
-  filename = "${get_terragrunt_dir()}/zip.txt"
+  filename = "${get_terragrunt_dir()}/zip.txt"  # notice that it is different from the shared.hcl
 })
