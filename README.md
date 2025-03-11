@@ -18,3 +18,10 @@ These text files should contain the value of __content__ set in _infra/local_fil
 ```bash
 terragrunt run-all destroy --terragrunt-non-interactive
 ```
+
+## Watch the demo
+
+
+
+[Watch Demo](https://github.com/user-attachments/assets/d6bdce6d-28d3-43de-8862-6cf63bf31744)
+
