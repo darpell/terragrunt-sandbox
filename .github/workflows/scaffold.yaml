@@ -45,7 +45,7 @@ jobs:
         if: ${{ inputs.operation == 'create' }}
         working-directory: infra/local_files
         run: |
-          mkdir -p "wb-${{ $((1 + $RANDOM % 10)) }}" \
+          mkdir -p "wb-${{ 1 + $RANDOM % 10 }}" \
           && cd "$_" \
           && terragrunt scaffold git::git@github.com:PROPeL-Health/mk-propel-terraform.git//modules/workbench \
           && hcledit attribute -f terragrunt.hcl set locals.name "test" -u \
@@ -53,7 +53,7 @@ jobs:
           && make plan
       - name: Create Pull Request
         id: cpr
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-reque st@v7
         with:
           token: ${{ steps.token.outputs.token }}
           branch: feat/test
