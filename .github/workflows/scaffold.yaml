@@ -54,7 +54,7 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-reque st@v7
         with:
-          token: ${{ steps.token.outputs.token }}
+          token: ${{ github.token }}
           branch: feat/test
           title: "test title 🤖"
           commit-message: "test commit message 🤖"
