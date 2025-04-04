@@ -1,0 +1,70 @@
+name: Administer Tenancy Workbench
+on:
+  workflow_dispatch:
+    inputs:
+      terragrunt-version:
+        description: The version of terragrunt to install.
+        type: string
+        required: false
+        default: "0.49.1"
+
+defaults:
+  run:
+    shell: bash
+
+permissions:
+  actions: write
+  id-token: write
+  pull-requests: write
+  contents: write
+
+jobs:
+  create-local-files:
+    runs-on: ubuntu-latest
+    needs: validate-inputs
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Install hcledit
+        uses: jaxxstorm/action-install-gh-release@v1
+        with:
+          repo: minamijoyo/hcledit
+          tag: v0.2.5
+          cache: enable
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Setup terragrunt
+        uses: autero1/action-terragrunt@v1.3.2
+        with:
+          token: ${{ github.token }}
+          terragrunt_version: ${{ inputs.terragrunt-version }}
+      - name: Create workbench
+        id: wb-create
+        if: ${{ inputs.operation == 'create' }}
+        working-directory: infra/local_files
+        run: |
+          mkdir -p "wb-${{ 1 + $RANDOM % 10 }}" \
+          && cd "$_" \
+          && terragrunt scaffold git::git@github.com:PROPeL-Health/mk-propel-terraform.git//modules/workbench \
+          && hcledit attribute -f terragrunt.hcl set locals.name "test" -u \
+          && hcledit attribute -f terragrunt.hcl set locals.subnet_cidr "test" -u \
+          && make plan
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ steps.token.outputs.token }}
+          branch: feat/test
+          title: "test title 🤖"
+          commit-message: "test commit message 🤖"
+          delete-branch: true
+          labels: "automerge,minor"
+      - name: Enable Pull Request Automerge
+        if: steps.cpr.outputs.pull-request-operation == 'created' || steps.cpr.outputs.pull-request-operation == 'updated'
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ steps.token.outputs.token }}
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method: rebase
