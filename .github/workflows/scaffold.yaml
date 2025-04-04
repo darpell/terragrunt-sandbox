@@ -41,7 +41,7 @@ jobs:
           terragrunt_version: ${{ inputs.terragrunt-version }}
       - name: Create workbench
         id: wb-create
-        if: ${{ inputs.operation == 'create' }}
+        # if: ${{ inputs.operation == 'create' }}
         working-directory: infra/local_files
         run: |
           mkdir -p "wb-00123" \
