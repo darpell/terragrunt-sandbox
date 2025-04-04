@@ -45,7 +45,7 @@ jobs:
         if: ${{ inputs.operation == 'create' }}
         working-directory: infra/local_files
         run: |
-          mkdir -p "wb-${{ 1 + $RANDOM % 10 }}" \
+          mkdir -p "wb-${{ RANDOM % 10 + 1 }}" \
           && cd "$_" \
           && terragrunt scaffold git::git@github.com:PROPeL-Health/mk-propel-terraform.git//modules/workbench \
           && hcledit attribute -f terragrunt.hcl set locals.name "test" -u \
