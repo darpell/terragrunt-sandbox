@@ -6,7 +6,7 @@ on:
         description: The version of terragrunt to install.
         type: string
         required: false
-        default: "0.49.1"
+        default: "0.59.7"
 
 defaults:
   run:
@@ -46,8 +46,11 @@ jobs:
         run: |
           mkdir -p "wb-00123" \
           && cd "$_" \
-          && terragrunt scaffold git::git@github.com:PROPeL-Health/mk-propel-terraform.git//modules/workbench \
-          && hcledit attribute -f terragrunt.hcl set locals.name "test" -u \
+          && terragrunt scaffold git::git@github.com:PROPeL-Health/mk-propel-terraform.git//modules/workbench?ref=workbench-v0.26.0
+      - name: Edit hcl files
+        working-directory: infra/local_files/wb-00123
+        run: |
+          hcledit attribute -f terragrunt.hcl set locals.name "test" -u \
           && hcledit attribute -f terragrunt.hcl set locals.subnet_cidr "test" -u \
           && make plan
       - name: Create Pull Request
