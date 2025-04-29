@@ -6,8 +6,8 @@ My sandbox repo for experimenting with Terragrunt
 1. Open a terminal execute the following
 
 ```bash
-cd infra/local_files
-terragrunt run-all apply --terragrunt-non-interactive
+cd infra
+make plan && make apply
 ```
 
 2. Notice that there are files made in each directory that is based on the individual _terragrunt.hcl_ file inside the child directory.
@@ -16,7 +16,8 @@ These text files should contain the value of __content__ set in _infra/local_fil
 
 3. When you are done, cleanup the repo by running
 ```bash
-terragrunt run-all destroy --terragrunt-non-interactive
+
+make plan-destroy && make destroy
 ```
 
 ## Watch the demo
