@@ -5,7 +5,7 @@ My sandbox repo for experimenting with Terragrunt
 ## How to use
 
 ### Create from a scaffold
-```
+```bash
 mkdir -p local_files/test # replace <test>
 cd $_
 terragrunt scaffold ../../..//modules/create-local-file
